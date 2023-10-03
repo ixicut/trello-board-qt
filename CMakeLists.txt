@@ -39,6 +39,7 @@ else()
         add_executable(trello_board
             ${PROJECT_SOURCES}
             taskcardwidget.h taskcardwidget.cpp
+            customlistwidget.h customlistwidget.cpp
         )
     endif()
 endif()
