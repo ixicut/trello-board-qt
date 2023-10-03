@@ -1,6 +1,8 @@
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QListWidget>
 #include <QLabel>
+#include <QTabWidget>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "customlistwidget.h"
@@ -15,7 +17,19 @@ MainWindow::MainWindow(QWidget *parent) :
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
-    QHBoxLayout *layout = new QHBoxLayout(centralWidget);
+    QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
+
+
+    tabWidget = new QTabWidget(this);
+    mainLayout->addWidget(tabWidget);
+
+    QWidget *tab1 = new QWidget(this);
+    QWidget *tab2 = new QWidget(this);
+
+    QHBoxLayout *firstTabLayout = new QHBoxLayout(tab1);
+
+    tabWidget->addTab(tab1, "Tab 1");
+    tabWidget->addTab(tab2, "Tab 2");
 
     QListWidget *listWidget1 = new CustomListWidget(this);
     QListWidget *listWidget2 = new CustomListWidget(this);
@@ -42,11 +56,9 @@ MainWindow::MainWindow(QWidget *parent) :
     item4->setSizeHint(task4->sizeHint());
     listWidget1->setItemWidget(item4, task4);
 
-    layout->addWidget(listWidget1);
-    layout->addWidget(listWidget2);
-    layout->addWidget(listWidget3);
-
-    centralWidget->setLayout(layout);
+    firstTabLayout->addWidget(listWidget1);
+    firstTabLayout->addWidget(listWidget2);
+    firstTabLayout->addWidget(listWidget3);
 }
 
 MainWindow::~MainWindow()

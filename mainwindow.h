@@ -17,5 +17,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QTabWidget *tabWidget;
 };
 #endif // MAINWINDOW_H
