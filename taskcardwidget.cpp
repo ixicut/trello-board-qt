@@ -30,9 +30,9 @@ void TaskCardWidget::mouseMoveEvent(QMouseEvent *event) {
 
 QString TaskCardWidget::serializeTaskCardWidget() {
     QJsonObject jsonObject;
-    jsonObject["name"] = titleLabel->text();
-    jsonObject["surname"] = complexityLabel->text();
-    jsonObject["age"] = priorityLabel->text().toInt();
+    jsonObject["title"] = titleLabel->text();
+    jsonObject["complexity"] = complexityLabel->text();
+    jsonObject["priority"] = priorityLabel->text().toInt();
 
     QJsonDocument jsonDoc(jsonObject);
     return jsonDoc.toJson(QJsonDocument::Compact);
@@ -40,9 +40,9 @@ QString TaskCardWidget::serializeTaskCardWidget() {
 
 TaskCardWidget* TaskCardWidget::deserializeTaskCardWidget(const QString& jsonString) {
     QJsonObject jsonObject = QJsonDocument::fromJson(jsonString.toUtf8()).object();
-    QString name = jsonObject["name"].toString();
-    QString surname = jsonObject["surname"].toString();
-    int age = jsonObject["age"].toInt();
+    QString name = jsonObject["title"].toString();
+    QString surname = jsonObject["complexity"].toString();
+    int age = jsonObject["priority"].toInt();
 
     TaskCardWidget* widget = new TaskCardWidget(name, surname, age);
     return widget;
