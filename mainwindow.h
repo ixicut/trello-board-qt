@@ -15,8 +15,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void addNewTab();
+
 private:
     Ui::MainWindow *ui;
     QTabWidget *tabWidget;
+    int tabCounter;
 };
 #endif // MAINWINDOW_H

@@ -3,6 +3,9 @@
 #include <QListWidget>
 #include <QLabel>
 #include <QTabWidget>
+#include <QAction>
+#include <QInputDialog>
+#include <QMessageBox>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "customlistwidget.h"
@@ -13,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    connect(ui->addTableAction, SIGNAL(triggered()), this, SLOT(addNewTab()));
+    tabCounter = 0;
 
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -61,7 +66,19 @@ MainWindow::MainWindow(QWidget *parent) :
     firstTabLayout->addWidget(listWidget3);
 }
 
+void MainWindow::addNewTab() {
+
+    bool ok;
+    QString tabTitle = QInputDialog::getText(nullptr, "Enter table name", "Table name:", QLineEdit::Normal, "", &ok);
+
+    QWidget *newTab = new QWidget(this);
+
+    if (ok && !tabTitle.isEmpty()) tabWidget->addTab(newTab, tabTitle);
+    else if(ok && tabTitle.isEmpty()) tabWidget->addTab(newTab, "New table " + QString::number(++tabCounter));
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
+
 }
