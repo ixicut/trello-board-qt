@@ -40,6 +40,7 @@ else()
             ${PROJECT_SOURCES}
             taskcardwidget.h taskcardwidget.cpp
             customlistwidget.h customlistwidget.cpp
+            tablesection.h tablesection.cpp
         )
     endif()
 endif()

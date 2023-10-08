@@ -10,6 +10,7 @@
 #include "ui_mainwindow.h"
 #include "customlistwidget.h"
 #include "taskcardwidget.h"
+#include "tablesection.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
+    QHBoxLayout *mainLayout = new QHBoxLayout(centralWidget);
 
     tabWidget = new QTabWidget(this);
     mainLayout->addWidget(tabWidget);
