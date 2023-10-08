@@ -26,38 +26,11 @@ public:
         setLayout(layout);
     }
 
-    QString serializeTaskCardWidget() {
-        QJsonObject jsonObject;
-        jsonObject["name"] = nameLabel->text();
-        jsonObject["surname"] = surnameLabel->text();
-        jsonObject["age"] = ageLabel->text().toInt();
+    void mouseMoveEvent(QMouseEvent *event) override;
 
-        QJsonDocument jsonDoc(jsonObject);
-        return jsonDoc.toJson(QJsonDocument::Compact);
-    }
+    QString serializeTaskCardWidget();
 
-    static TaskCardWidget* deserializeTaskCardWidget(const QString& jsonString) {
-        QJsonObject jsonObject = QJsonDocument::fromJson(jsonString.toUtf8()).object();
-        QString name = jsonObject["name"].toString();
-        QString surname = jsonObject["surname"].toString();
-        int age = jsonObject["age"].toInt();
-
-        TaskCardWidget* widget = new TaskCardWidget(name, surname, age);
-        return widget;
-    }
-
-    void mouseMoveEvent(QMouseEvent *event) override {
-        QDrag* drag = new QDrag(this->parent()->parent());
-        QMimeData* mimeData = new QMimeData();
-        QByteArray itemData;
-        QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-
-        mimeData->setData("application/x-qabstractitemmodeldatalist", itemData);
-        mimeData->setText(serializeTaskCardWidget());
-        drag->setMimeData(mimeData);
-
-        drag->exec(Qt::MoveAction);
-    }
+    static TaskCardWidget* deserializeTaskCardWidget(const QString& jsonString);
 
     QString getName() {
         return nameLabel->text();

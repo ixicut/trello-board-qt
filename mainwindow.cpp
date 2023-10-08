@@ -67,7 +67,6 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::addNewTab() {
-
     bool ok;
     QString tabTitle = QInputDialog::getText(nullptr, "Enter table name", "Table name:", QLineEdit::Normal, "", &ok);
 
