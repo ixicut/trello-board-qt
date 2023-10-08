@@ -17,13 +17,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->addTableAction, SIGNAL(triggered()), this, SLOT(addNewTab()));
-    tabCounter = 0;
+    namelessTabCounter = 0;
+    allTabCounter = 0;
 
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(centralWidget);
-
 
     tabWidget = new QTabWidget(this);
     mainLayout->addWidget(tabWidget);
@@ -74,11 +74,12 @@ void MainWindow::addNewTab() {
     QWidget *newTab = new QWidget(this);
 
     if (ok && !tabTitle.isEmpty()) tabWidget->addTab(newTab, tabTitle);
-    else if(ok && tabTitle.isEmpty()) tabWidget->addTab(newTab, "New table " + QString::number(++tabCounter));
+    else if(ok && tabTitle.isEmpty()) tabWidget->addTab(newTab, "New table " + QString::number(++namelessTabCounter));
+    allTabCounter++;
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-
+    delete tabWidget;
 }

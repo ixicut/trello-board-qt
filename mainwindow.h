@@ -21,6 +21,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QTabWidget *tabWidget;
-    int tabCounter;
+    int namelessTabCounter;
+    int allTabCounter;
 };
 #endif // MAINWINDOW_H
