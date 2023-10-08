@@ -1,5 +1,20 @@
 #include "taskcardwidget.h"
 
+TaskCardWidget::TaskCardWidget(const QString& title, const QString& complexity, int priority, QWidget* parent)
+    : QWidget(parent) {
+    setAcceptDrops(true);
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    titleLabel = new QLabel(title, this);
+    complexityLabel = new QLabel(complexity, this);
+    priorityLabel = new QLabel(QString::number(priority), this);
+
+    layout->addWidget(titleLabel);
+    layout->addWidget(complexityLabel);
+    layout->addWidget(priorityLabel);
+
+    setLayout(layout);
+}
+
 void TaskCardWidget::mouseMoveEvent(QMouseEvent *event) {
     QDrag* drag = new QDrag(this->parent()->parent());
     QMimeData* mimeData = new QMimeData();
@@ -15,9 +30,9 @@ void TaskCardWidget::mouseMoveEvent(QMouseEvent *event) {
 
 QString TaskCardWidget::serializeTaskCardWidget() {
     QJsonObject jsonObject;
-    jsonObject["name"] = nameLabel->text();
-    jsonObject["surname"] = surnameLabel->text();
-    jsonObject["age"] = ageLabel->text().toInt();
+    jsonObject["name"] = titleLabel->text();
+    jsonObject["surname"] = complexityLabel->text();
+    jsonObject["age"] = priorityLabel->text().toInt();
 
     QJsonDocument jsonDoc(jsonObject);
     return jsonDoc.toJson(QJsonDocument::Compact);
