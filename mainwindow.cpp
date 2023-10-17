@@ -10,7 +10,6 @@
 #include "ui_mainwindow.h"
 #include "customlistwidget.h"
 #include "taskcardwidget.h"
-#include "tablesection.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,12 +29,10 @@ MainWindow::MainWindow(QWidget *parent) :
     mainLayout->addWidget(tabWidget);
 
     QWidget *tab1 = new QWidget(this);
-    QWidget *tab2 = new QWidget(this);
 
     QHBoxLayout *firstTabLayout = new QHBoxLayout(tab1);
 
     tabWidget->addTab(tab1, "Tab 1");
-    tabWidget->addTab(tab2, "Tab 2");
 
     QListWidget *listWidget1 = new CustomListWidget(this);
     QListWidget *listWidget2 = new CustomListWidget(this);
@@ -72,6 +69,16 @@ void MainWindow::addNewTab() {
     QString tabTitle = QInputDialog::getText(nullptr, "Enter table name", "Table name:", QLineEdit::Normal, "", &ok);
 
     QWidget *newTab = new QWidget(this);
+
+    QHBoxLayout *tabLayout = new QHBoxLayout(newTab);
+
+    QListWidget *listWidget1 = new CustomListWidget(this);
+    QListWidget *listWidget2 = new CustomListWidget(this);
+    QListWidget *listWidget3 = new CustomListWidget(this);
+
+    tabLayout->addWidget(listWidget1);
+    tabLayout->addWidget(listWidget2);
+    tabLayout->addWidget(listWidget3);
 
     if (ok && !tabTitle.isEmpty()) tabWidget->addTab(newTab, tabTitle);
     else if(ok && tabTitle.isEmpty()) tabWidget->addTab(newTab, "New table " + QString::number(++namelessTabCounter));
