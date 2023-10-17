@@ -5,6 +5,7 @@
 #include <QMimeData>
 #include <QPixmap>
 #include <QDebug>
+#include <QMenu>
 #include "taskcardwidget.h"
 
 CustomListWidget::CustomListWidget(QWidget* parent) : QListWidget(parent) {
@@ -63,4 +64,17 @@ void CustomListWidget::dropEvent(QDropEvent* event)
 
         sourceListWidget->setCurrentItem(newItem);
     }
+}
+
+void CustomListWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu(this);
+    QAction *action1 = menu.addAction("Add new task");
+
+    // You can connect these actions to slots if you want them to do something
+    connect(action1, &QAction::triggered, this, [&]() {
+        qDebug() << "create task";
+    });
+
+    menu.exec(event->globalPos());
 }

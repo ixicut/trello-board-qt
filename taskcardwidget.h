@@ -19,6 +19,9 @@ public:
 
     static TaskCardWidget* deserializeTaskCardWidget(const QString& jsonString);
 
+protected:
+    void contextMenuEvent(QContextMenuEvent *event) override;
+
 private:
     QLabel* titleLabel;
     QLabel* complexityLabel;

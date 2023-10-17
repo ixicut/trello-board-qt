@@ -1,3 +1,4 @@
+#include <QMenu>
 #include "taskcardwidget.h"
 
 TaskCardWidget::TaskCardWidget(const QString& title, const QString& complexity, int priority, QWidget* parent)
@@ -16,16 +17,20 @@ TaskCardWidget::TaskCardWidget(const QString& title, const QString& complexity, 
 }
 
 void TaskCardWidget::mouseMoveEvent(QMouseEvent *event) {
-    QDrag* drag = new QDrag(this->parent()->parent());
-    QMimeData* mimeData = new QMimeData();
-    QByteArray itemData;
-    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    if (event->buttons() & Qt::LeftButton) {
+        QDrag* drag = new QDrag(this->parent()->parent());
+        QMimeData* mimeData = new QMimeData();
+        QByteArray itemData;
+        QDataStream dataStream(&itemData, QIODevice::WriteOnly);
 
-    mimeData->setData("application/x-qabstractitemmodeldatalist", itemData);
-    mimeData->setText(serializeTaskCardWidget());
-    drag->setMimeData(mimeData);
+        mimeData->setData("application/x-qabstractitemmodeldatalist", itemData);
+        mimeData->setText(serializeTaskCardWidget());
+        drag->setMimeData(mimeData);
 
-    drag->exec(Qt::MoveAction);
+        drag->exec(Qt::MoveAction);
+    } else {
+        event->ignore();
+    }
 }
 
 QString TaskCardWidget::serializeTaskCardWidget() {
@@ -46,4 +51,21 @@ TaskCardWidget* TaskCardWidget::deserializeTaskCardWidget(const QString& jsonStr
 
     TaskCardWidget* widget = new TaskCardWidget(name, surname, age);
     return widget;
+}
+
+void TaskCardWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu(this);
+    QAction *action1 = menu.addAction("Edit task");
+    QAction *action2 = menu.addAction("Delete task");
+
+    connect(action1, &QAction::triggered, this, [&]() {
+        // Handle action 1
+    });
+
+    connect(action2, &QAction::triggered, this, [&]() {
+        // Handle action 2
+    });
+
+    menu.exec(event->globalPos());
 }
