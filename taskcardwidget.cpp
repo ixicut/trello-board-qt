@@ -1,4 +1,5 @@
 #include <QMenu>
+#include <QMessageBox>
 #include "taskcardwidget.h"
 #include "customlistwidget.h"
 
@@ -57,21 +58,30 @@ TaskCardWidget* TaskCardWidget::deserializeTaskCardWidget(const QString& jsonStr
 void TaskCardWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
-    QAction *action1 = menu.addAction("Edit task");
-    QAction *action2 = menu.addAction("Delete task");
+    QAction *editAction = menu.addAction("Edit task");
+    QAction *deleteAction = menu.addAction("Delete task");
 
-    connect(action1, &QAction::triggered, this, [&]() {
+    connect(editAction, &QAction::triggered, this, [&]() {
         // Handle action 1
     });
 
-    connect(action2, &QAction::triggered, this, [&]() {
-        QListWidget* sourceListWidget = dynamic_cast<CustomListWidget*>(this->parent()->parent());
+    connect(deleteAction, &QAction::triggered, this, [&]() {
+        QMessageBox::StandardButton reply = QMessageBox::question(
+            this,
+            "Confirm Deletion",
+            QString("Are you sure to delete selected task?"),
+            QMessageBox::Yes | QMessageBox::No
+            );
 
-        QListWidgetItem * item = sourceListWidget->currentItem();
+        if (reply == QMessageBox::Yes) {
+            QListWidget* sourceListWidget = dynamic_cast<CustomListWidget*>(this->parent()->parent());
 
-        sourceListWidget->removeItemWidget(item);
+            QListWidgetItem * item = sourceListWidget->currentItem();
 
-        delete item;
+            sourceListWidget->removeItemWidget(item);
+
+            delete item;
+        } else {}
     });
 
     menu.exec(event->globalPos());
