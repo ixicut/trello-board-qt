@@ -1,5 +1,6 @@
 #include <QMenu>
 #include "taskcardwidget.h"
+#include "customlistwidget.h"
 
 TaskCardWidget::TaskCardWidget(const QString& title, const QString& complexity, int priority, QWidget* parent)
     : QWidget(parent) {
@@ -64,7 +65,13 @@ void TaskCardWidget::contextMenuEvent(QContextMenuEvent *event)
     });
 
     connect(action2, &QAction::triggered, this, [&]() {
-        // Handle action 2
+        QListWidget* sourceListWidget = dynamic_cast<CustomListWidget*>(this->parent()->parent());
+
+        QListWidgetItem * item = sourceListWidget->currentItem();
+
+        sourceListWidget->removeItemWidget(item);
+
+        delete item;
     });
 
     menu.exec(event->globalPos());
