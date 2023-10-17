@@ -41,6 +41,7 @@ else()
             taskcardwidget.h taskcardwidget.cpp
             customlistwidget.h customlistwidget.cpp
             tablesection.h tablesection.cpp
+            createtaskdialog.h createtaskdialog.cpp
         )
     endif()
 endif()

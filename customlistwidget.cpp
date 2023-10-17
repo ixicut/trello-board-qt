@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QMenu>
 #include "taskcardwidget.h"
+#include "createtaskdialog.h"
 
 CustomListWidget::CustomListWidget(QWidget* parent) : QListWidget(parent) {
     setDropIndicatorShown(false);
@@ -69,12 +70,24 @@ void CustomListWidget::dropEvent(QDropEvent* event)
 void CustomListWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu(this);
-    QAction *action1 = menu.addAction("Add new task");
+    QAction *action1 = menu.addAction("Create new task");
 
-    // You can connect these actions to slots if you want them to do something
-    connect(action1, &QAction::triggered, this, [&]() {
-        qDebug() << "create task";
-    });
+    connect(action1, &QAction::triggered, this, &CustomListWidget::createTaskHandler);
 
     menu.exec(event->globalPos());
+}
+
+void CustomListWidget::createTaskHandler() {
+    CreateTaskDialog taskDialog;
+    if (taskDialog.exec() == QDialog::Accepted) {
+
+        QString taskName = taskDialog.getTaskName();
+        QString complexity = taskDialog.getComplexity();
+        unsigned int priority = taskDialog.getPriority();
+
+        QListWidgetItem* newTaskItem = new QListWidgetItem(this);
+        TaskCardWidget* newTask = new TaskCardWidget(taskName, complexity, priority);
+        newTaskItem->setSizeHint(newTask->sizeHint());
+        this->setItemWidget(newTaskItem, newTask);
+    } else {}
 }

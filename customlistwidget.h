@@ -12,6 +12,8 @@ protected:
     void dragEnterEvent(QDragEnterEvent* event) override;
     void dropEvent(QDropEvent* event) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
+private slots:
+    void createTaskHandler();
 };
 
 #endif // CUSTOMLISTWIDGET_H
