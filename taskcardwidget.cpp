@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include "taskcardwidget.h"
 #include "customlistwidget.h"
+#include "createtaskdialog.h"
 
 TaskCardWidget::TaskCardWidget(const QString& title, const QString& complexity, int priority, QWidget* parent)
     : QWidget(parent) {
@@ -66,7 +67,18 @@ void TaskCardWidget::contextMenuEvent(QContextMenuEvent *event)
 
     connect(editAction, &QAction::triggered, this, [&]() {
         TaskCardWidget *retrievedTaskWidget = dynamic_cast<TaskCardWidget*>(sourceListWidget->itemWidget(selectedItem));
-        qDebug() << retrievedTaskWidget;
+
+        CreateTaskDialog taskDialog =
+            CreateTaskDialog(retrievedTaskWidget->getTitle(),retrievedTaskWidget->getComplexity(),retrievedTaskWidget->getPriority());
+        if (taskDialog.exec() == QDialog::Accepted) {
+
+            QString taskName = taskDialog.getTaskName();
+            QString complexity = taskDialog.getComplexity();
+            unsigned int priority = taskDialog.getPriority();
+
+            retrievedTaskWidget->updateTaskFields(taskName,complexity,priority);
+
+        } else {}
     });
 
     connect(deleteAction, &QAction::triggered, this, [&]() {
@@ -84,4 +96,22 @@ void TaskCardWidget::contextMenuEvent(QContextMenuEvent *event)
     });
 
     menu.exec(event->globalPos());
+}
+
+void TaskCardWidget::updateTaskFields(const QString& title, const QString& complexity, const unsigned int priority) {
+    titleLabel->setText(title);
+    complexityLabel->setText(complexity);
+    priorityLabel->setText(QString::number(priority));
+}
+
+QString TaskCardWidget::getTitle() {
+    return titleLabel->text();
+}
+
+QString TaskCardWidget::getComplexity() {
+    return complexityLabel->text();
+}
+
+unsigned int TaskCardWidget::getPriority() {
+    return priorityLabel->text().toUInt();
 }
