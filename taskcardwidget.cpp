@@ -61,8 +61,12 @@ void TaskCardWidget::contextMenuEvent(QContextMenuEvent *event)
     QAction *editAction = menu.addAction("Edit task");
     QAction *deleteAction = menu.addAction("Delete task");
 
+    QListWidget* sourceListWidget = dynamic_cast<CustomListWidget*>(this->parent()->parent());
+    QListWidgetItem * selectedItem = sourceListWidget->currentItem();
+
     connect(editAction, &QAction::triggered, this, [&]() {
-        // Handle action 1
+        TaskCardWidget *retrievedTaskWidget = dynamic_cast<TaskCardWidget*>(sourceListWidget->itemWidget(selectedItem));
+        qDebug() << retrievedTaskWidget;
     });
 
     connect(deleteAction, &QAction::triggered, this, [&]() {
@@ -74,13 +78,8 @@ void TaskCardWidget::contextMenuEvent(QContextMenuEvent *event)
             );
 
         if (reply == QMessageBox::Yes) {
-            QListWidget* sourceListWidget = dynamic_cast<CustomListWidget*>(this->parent()->parent());
-
-            QListWidgetItem * item = sourceListWidget->currentItem();
-
-            sourceListWidget->removeItemWidget(item);
-
-            delete item;
+            sourceListWidget->removeItemWidget(selectedItem);
+            delete selectedItem;
         } else {}
     });
 
