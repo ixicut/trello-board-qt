@@ -12,6 +12,7 @@ class CreateTaskDialog : public QDialog
 
 public:
     CreateTaskDialog(QWidget *parent = nullptr);
+    CreateTaskDialog(const QString& initialName, const QString& initialComplexity, unsigned int initialPriority, QWidget *parent = nullptr);
 
     QString getTaskName() const;
     QString getComplexity() const;

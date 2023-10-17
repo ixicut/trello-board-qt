@@ -3,15 +3,19 @@
 #include <QFormLayout>
 
 CreateTaskDialog::CreateTaskDialog(QWidget *parent)
+    : CreateTaskDialog(QString(""),QString(""),1,parent) {}
+
+CreateTaskDialog::CreateTaskDialog(const QString& initialName, const QString& initialComplexity, unsigned int initialPriority, QWidget *parent)
     : QDialog(parent)
 {
-    nameLineEdit = new QLineEdit(this);
-    complexitySpinBox = new QLineEdit(this);
+    nameLineEdit = new QLineEdit(initialName,this);
+    complexitySpinBox = new QLineEdit(initialComplexity,this);
     prioritySpinBox = new QSpinBox(this);
     okButton = new QPushButton("OK", this);
     cancelButton = new QPushButton("Cancel", this);
 
     prioritySpinBox->setRange(1, 3);
+    prioritySpinBox->setValue(static_cast<int>(initialPriority));
 
     QFormLayout *formLayout = new QFormLayout;
     formLayout->addRow("Task Name:", nameLineEdit);
