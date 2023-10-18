@@ -7,16 +7,27 @@
 TaskCardWidget::TaskCardWidget(const QString& title, const QString& complexity, int priority, QWidget* parent)
     : QWidget(parent) {
     setAcceptDrops(true);
-    QVBoxLayout* layout = new QVBoxLayout(this);
+    QLabel *titleCaption = new QLabel("Title: ", this);
+    QLabel *complexityCaption = new QLabel("Complexity: ", this);
+    QLabel *priorityCaption = new QLabel("Priority: ", this);
+
     titleLabel = new QLabel(title, this);
     complexityLabel = new QLabel(complexity, this);
     priorityLabel = new QLabel(QString::number(priority), this);
 
-    layout->addWidget(titleLabel);
-    layout->addWidget(complexityLabel);
-    layout->addWidget(priorityLabel);
+    QGridLayout* gridLayout = new QGridLayout(this);
 
-    setLayout(layout);
+    // Add widgets to the grid layout
+    gridLayout->addWidget(titleCaption, 0, 0);
+    gridLayout->addWidget(titleLabel, 0, 1);
+
+    gridLayout->addWidget(complexityCaption, 1, 0);
+    gridLayout->addWidget(complexityLabel, 1, 1);
+
+    gridLayout->addWidget(priorityCaption, 2, 0);
+    gridLayout->addWidget(priorityLabel, 2, 1);
+
+    setLayout(gridLayout);
 }
 
 void TaskCardWidget::mouseMoveEvent(QMouseEvent *event) {
