@@ -10,7 +10,7 @@ class TableSection : public QWidget
     Q_OBJECT
 
 public:
-    TableSection(QWidget* parent = nullptr);
+    TableSection(QString sectionName, QWidget* parent = nullptr);
 
 private:
     QLabel* label;

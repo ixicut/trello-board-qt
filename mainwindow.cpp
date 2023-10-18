@@ -10,13 +10,14 @@
 #include "ui_mainwindow.h"
 #include "customlistwidget.h"
 #include "taskcardwidget.h"
+#include "tablesection.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(ui->addTableAction, SIGNAL(triggered()), this, SLOT(addNewTab()));
+    connect(ui->addTableAction, SIGNAL(triggered()), this, SLOT(addNewTabHandler()));
     namelessTabCounter = 0;
     allTabCounter = 0;
 
@@ -64,25 +65,29 @@ MainWindow::MainWindow(QWidget *parent) :
     firstTabLayout->addWidget(listWidget3);
 }
 
-void MainWindow::addNewTab() {
-    bool ok;
-    QString tabTitle = QInputDialog::getText(nullptr, "Enter table name", "Table name:", QLineEdit::Normal, "", &ok);
-
+void MainWindow::createNewTab(const QString &tabTitle, const bool ok){
     QWidget *newTab = new QWidget(this);
 
     QHBoxLayout *tabLayout = new QHBoxLayout(newTab);
 
-    QListWidget *listWidget1 = new CustomListWidget(this);
-    QListWidget *listWidget2 = new CustomListWidget(this);
-    QListWidget *listWidget3 = new CustomListWidget(this);
+    TableSection *todoTableSection = new TableSection(QString("To do"),this);
+    TableSection *inProgressTableSection = new TableSection(QString("In progress"), this);
+    TableSection *doneTableSection = new TableSection(QString("Done"), this);
 
-    tabLayout->addWidget(listWidget1);
-    tabLayout->addWidget(listWidget2);
-    tabLayout->addWidget(listWidget3);
+    tabLayout->addWidget(todoTableSection);
+    tabLayout->addWidget(inProgressTableSection);
+    tabLayout->addWidget(doneTableSection);
 
     if (ok && !tabTitle.isEmpty()) tabWidget->addTab(newTab, tabTitle);
     else if(ok && tabTitle.isEmpty()) tabWidget->addTab(newTab, "New table " + QString::number(++namelessTabCounter));
     allTabCounter++;
+}
+
+void MainWindow::addNewTabHandler() {
+    bool ok;
+    QString tabTitle = QInputDialog::getText(nullptr, "Enter table name", "Table name:", QLineEdit::Normal, "", &ok);
+
+    createNewTab(tabTitle, ok);
 }
 
 MainWindow::~MainWindow()

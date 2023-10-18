@@ -16,7 +16,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void addNewTab();
+    void addNewTabHandler();
+
+private:
+    void createNewTab(const QString &tabTitle, const bool ok);
 
 private:
     Ui::MainWindow *ui;
