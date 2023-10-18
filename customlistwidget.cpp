@@ -40,7 +40,6 @@ void CustomListWidget::dropEvent(QDropEvent* event)
 
         TaskCardWidget *newTaskCard = TaskCardWidget::deserializeTaskCardWidget(salo);
 
-
         QModelIndex index = indexAt(event->pos());
 
         int dropRow;
@@ -53,8 +52,6 @@ void CustomListWidget::dropEvent(QDropEvent* event)
         setItemWidget(newItem, newTaskCard);
 
         QListWidget::dropEvent(event);
-
-        qDebug() << "dropped row is" << dropRow;
 
         QListWidget* sourceListWidget = dynamic_cast<CustomListWidget*>(event->source());
 
